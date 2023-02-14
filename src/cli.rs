@@ -22,4 +22,17 @@ impl User {
             );
         }
     }
+
+    pub fn print_reminders(&self, id: u64) { // revisit -> allow use of reminders > 1 day?
+        let (title, reminders) = self.get_reminders_by_id(id);
+        println!("Reminders for event \"{}\":", title);
+
+        let mut sorted = reminders.clone();
+        sorted.sort_by_key(|x| x.num_minutes());
+
+        for reminder in sorted {
+            let printable = reminder.num_minutes().to_string();
+            println!("{} minutes", printable);
+        }
+    }
 }

@@ -13,14 +13,21 @@ use cli::*;
 
 
 fn test_fill() -> User {
-    let mut end: DateTime::<Local> = SystemTime::now().into();
-    end += Duration::hours(1);
+    let mut start: DateTime::<Local> = SystemTime::now().into();
+    start += Duration::hours(7);
+    let end = start + Duration::hours(5);
 
     let mut usr = create_user("jija", "jija");
-    usr.create_timed_event("Work", "jija kakaja-to", SystemTime::now().into(), end);
+    usr.create_timed_event("Work", "jija kakaja-to", start, end);
 
-    return usr
+    usr.add_reminder(1, Duration::hours(2));
+    usr.add_reminder(1, Duration::minutes(30));
+
+    usr
 }
+
+
+// TODO : shortcut for current time without casting?
 
 
 fn main() {
@@ -28,10 +35,20 @@ fn main() {
 
     usr.print_events();
 
+    usr.print_reminders(1);
+
     usr.remove_event(1);
 
     usr.create_allday_event("jeeja", "jijuu", SystemTime::now().into());
     usr.create_reminder_event("pojijevat", "jijuu2", SystemTime::now().into());
 
     usr.print_events();
+
+    usr.edit_event_title(2, "izmenenni");
+    usr.edit_event_desc(2, "ivent");
+    usr.edit_event_kind(2, EventType::Timed);
+
+    usr.print_events();
+
+    usr.edit_event_time_end(2, SystemTime::now().into());
 }
