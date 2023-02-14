@@ -13,30 +13,11 @@ use cli::*;
 
 
 fn test_fill() -> User {
-    let mut evt: Vec<Event> = Vec::new();
     let mut end: DateTime::<Local> = SystemTime::now().into();
-    end += Duration::days(1);
+    end += Duration::hours(1);
 
-    evt.push(Event{
-        id: 0,
-        title: "Work".to_string(),
-        kind: calendar::EventType::Reminder,
-        desc: "I have to do it everyday".to_string(),
-        reminders: Vec::new(),
-        time_start: SystemTime::now().into(),
-        time_end: Some(end)
-    });
-
-    let cld = Calendar {
-        events: evt,
-    };
-
-    let usr = User {
-        username: "Ilia".to_string(),
-        password: "jija".to_string(),
-        calendar: cld,
-        next_event_id: 0
-    };
+    let mut usr = create_user("jija", "jija");
+    usr.create_timed_event("Work", "jija kakaja-to", SystemTime::now().into(), end);
 
     return usr
 }
@@ -47,10 +28,10 @@ fn main() {
 
     usr.print_events();
 
-    usr.remove_event(0);
+    usr.remove_event(1);
 
-    usr.create_event("jeeja".to_string(), "jijuu".to_string(), EventType::AllDay, SystemTime::now().into(), None, Vec::new());
-    usr.create_event("jeeja2".to_string(), "jijuu2".to_string(), EventType::Reminder, SystemTime::now().into(), None, Vec::new());
+    usr.create_allday_event("jeeja", "jijuu", SystemTime::now().into());
+    usr.create_reminder_event("pojijevat", "jijuu2", SystemTime::now().into());
 
     usr.print_events();
 }

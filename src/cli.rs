@@ -4,7 +4,7 @@ use crate::calendar::*;
 impl User {
     pub fn print_events(&self) {
         println!("Events for user {}", self.username);
-        for item in &self.calendar.events {
+        for item in self.get_events() {
             println!("{0}: {1}, type: {2}, time_start: {3}, time_end: {4}, id: {5}", 
                 item.title, 
                 item.desc, 
